@@ -1,0 +1,41 @@
+executor: KubernetesExecutor
+
+defaultAirflowTag: "2.6.1"
+airflowVersion: "2.6.1"
+
+extraEnv: |
+  - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS
+    value: 'True'
+  - name: AIRFLOW__WEBSERVER__EXPOSE_CONFIG
+    value: 'True'
+  - name: AIRFLOW__KUBERNETES_EXECUTOR__DELETE_WORKER_PODS
+    value: 'True'
+  - name: AIRFLOW__KUBERNETES_EXECUTOR__DELETE_WORKER_PODS_ON_FAILURE
+    value: 'True'
+  - name: AIRFLOW__LOGGING__LOGGING_LEVEL
+    value: 'INFO'
+
+
+dags:
+  persistence:
+    enabled: false
+  gitSync:
+    enabled: true
+    repo: {{AIRFLOW_DAGS_REPO}}
+    branch: main  
+    wait: 5  
+    credentialsSecret: git-credentials
+    subPath: dags/src
+
+webserver:
+  service:
+    type: ClusterIP  
+
+ingress:
+  enabled: true
+  web:
+    path: /
+    host: {{AIRFLOW_HOST_DOMAIN}}
+    tls:
+      enabled: false
+      secretName: ""

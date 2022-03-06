@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "coreader-dags"
+version = "0.1.0"
+description = ""
+authors = ["coreader"]
+readme = "README.md"
+packages = [{include = "dags"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+feedparser = "^6.0.10"
+pymongo = "^4.4.0"
+redis = "^4.6.0"
+apache-airflow = "^2.6.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

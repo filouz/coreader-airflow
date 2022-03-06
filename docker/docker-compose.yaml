@@ -1,0 +1,23 @@
+version: '3.8'
+
+networks:
+  dags-network:
+    name: dags-network
+    driver: bridge
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    networks:
+      - dags-network
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+    networks:
+      - dags-network
+    depends_on:
+      - mongo
